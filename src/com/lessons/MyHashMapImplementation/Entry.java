@@ -36,10 +36,6 @@ class Entry<K, V> {
         this.value = value;
     }
 
-    public void setNext(Entry<K, V> next) {
-        this.next = next;
-    }
-
     @Override
     public boolean equals(Object obj) {
 

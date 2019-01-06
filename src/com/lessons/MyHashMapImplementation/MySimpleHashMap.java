@@ -1,5 +1,7 @@
 package com.lessons.MyHashMapImplementation;
 
+import java.util.Objects;
+
 public class MySimpleHashMap<K, V> implements SimpleHashMap<K, V> {
 
     private Entry<K, V>[] entries;
@@ -23,46 +25,57 @@ public class MySimpleHashMap<K, V> implements SimpleHashMap<K, V> {
 
         Entry<K, V> entry = Entry.entry(key, value);
 
-        int currentIndex = getHash(key) % getEntriesSize();
+        int currentIndex = getIndexByKey(key);
 
         Entry<K, V> currentEntry = entries[currentIndex];
 
         if (currentEntry == null) {
+
             entries[currentIndex] = entry;
             size++;
+
         } else {
-            // compare the keys see if key already exists
-            while (currentEntry.getNext() != null) {
-                if (currentEntry.getKey().equals(key)) {
+
+            Entry<K, V> tail = currentEntry;
+
+            while (currentEntry != null) {
+
+                if (Objects.equals(currentEntry.getKey(), key)) {
+
                     currentEntry.setValue(value);
                     return;
+
                 }
+
+                tail = currentEntry;
                 currentEntry = currentEntry.getNext();
+
             }
 
-            if (currentEntry.getKey().equals(key)) {
-                currentEntry.setValue(value);
-            } else {
-                currentEntry.setNext(entry);
-                size++;
-            }
+            tail.with(entry);
+            size++;
+
         }
-
 
     }
 
+    @Override
     public V get(K key) {
 
-        int currentIndex = getHash(key) % getEntriesSize();
+        Entry<K, V> currentEntry = entries[getIndexByKey(key)];
 
-        Entry<K, V> currentEntry = entries[currentIndex];
+        if (key == null) return currentEntry.getValue();
 
         while (currentEntry != null) {
 
-            if (currentEntry.getKey().equals(key)) {
+            if (Objects.equals(currentEntry.getKey(), key)) {
+
                 return currentEntry.getValue();
+
             }
+
             currentEntry = currentEntry.getNext();
+
         }
 
         return null;
@@ -71,19 +84,27 @@ public class MySimpleHashMap<K, V> implements SimpleHashMap<K, V> {
     @Override
     public boolean containsKey(K key) {
 
-        int currentIndex = getHash(key) % getEntriesSize();
-
-        Entry<K, V> currentEntry = entries[currentIndex];
+        Entry<K, V> currentEntry = entries[getIndexByKey(key)];
 
         while (currentEntry != null) {
 
-            if (currentEntry.getKey().equals(key)) {
+            if (Objects.equals(currentEntry.getKey(), key)) {
+
                 return true;
+
             }
+
             currentEntry = currentEntry.getNext();
+
         }
 
         return false;
+
+    }
+
+    private int getIndexByKey(K key) {
+
+        return getHash(key) % getEntriesSize();
 
     }
 
@@ -96,14 +117,18 @@ public class MySimpleHashMap<K, V> implements SimpleHashMap<K, V> {
 
                 if (currentEntry.getValue().equals(value)) {
                     return true;
+
                 }
+
                 currentEntry = currentEntry.getNext();
+
             }
         }
 
         return false;
     }
 
+    @Override
     public int size() {
         return size;
     }
@@ -114,6 +139,18 @@ public class MySimpleHashMap<K, V> implements SimpleHashMap<K, V> {
 
     private int getHash(K key) {
         return key == null ? 0 : Math.abs(key.hashCode());
+    }
+
+    @Override
+    public void display() {
+
+        for (Entry<K, V> entry : entries) {
+            while (entry != null) {
+                System.out.print("{" + entry.getKey() + "=" + entry.getValue() + "}" + " ");
+                entry = entry.getNext();
+            }
+        }
+
     }
 
 

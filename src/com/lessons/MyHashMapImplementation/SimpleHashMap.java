@@ -6,5 +6,7 @@ public interface SimpleHashMap<K, V> {
     V get(K key);
     boolean containsKey(K key);
     boolean containsValue(V value);
+    int size();
+    void display();
 
 }

@@ -6,11 +6,19 @@ import org.junit.Test;
 public class MySimpleHashMapTest {
 
     @Test
-    public void HashMapSizeIncreasesWhenPutUniqueKeys() {
+    public void sizeReturnsZeroIfHashMapIsEmpty() {
 
-        MySimpleHashMap<String, Integer> myHashMap = new MySimpleHashMap<>();
+        SimpleHashMap<String, Integer> myHashMap = new MySimpleHashMap();
 
         Assert.assertEquals(myHashMap.size(), 0);
+
+    }
+
+    @Test
+    public void sizeIncreasesWhenPutUniqueKeys() {
+
+        SimpleHashMap<String, Integer> myHashMap = new MySimpleHashMap();
+
         myHashMap.put("key1", 22);
         myHashMap.put("key2", 25);
         myHashMap.put("key3", 26);
@@ -20,11 +28,10 @@ public class MySimpleHashMapTest {
     }
 
     @Test
-    public void HashMapSizeTheSameWhenPutNonUniqueKeys() {
+    public void sizeTheSameWhenPutNonUniqueKeys() {
 
-        MySimpleHashMap<String, Integer> myHashMap = new MySimpleHashMap<>();
+        SimpleHashMap<String, Integer> myHashMap = new MySimpleHashMap();
 
-        Assert.assertEquals(myHashMap.size(), 0);
         myHashMap.put("key1", 22);
         myHashMap.put("key2", 25);
         myHashMap.put("key3", 26);
@@ -34,33 +41,38 @@ public class MySimpleHashMapTest {
     }
 
     @Test
-    public void HashMapSizeIncreasesWhenPutFirstNullKey() {
+    public void sizeIncreasesWhenPutEntryWithNullKey() {
 
-        MySimpleHashMap<String, Integer> myHashMap = new MySimpleHashMap<>();
+        SimpleHashMap<String, Integer> myHashMap = new MySimpleHashMap();
 
-        Assert.assertEquals(myHashMap.size(), 0);
         myHashMap.put(null, null);
         Assert.assertEquals(myHashMap.size(), 1);
 
     }
 
-    @Test(expected = NullPointerException.class)
-    public void NullPointerExceptionWhenPutNullKeyTwoTimes() {
+    @Test
+    public void getReturnsTheLastValueIfANumberOfConsequentiveEntriesWithKeysEqualNullWereAdded() {
 
-        MySimpleHashMap<String, Integer> myHashMap = new MySimpleHashMap<>();
+        SimpleHashMap<String, Integer> myHashMap = new MySimpleHashMap();
 
-        Assert.assertEquals(myHashMap.size(), 0);
-        myHashMap.put(null, null);
-        myHashMap.put(null, null);
+        myHashMap.put(null, 1);
+
+        int result = myHashMap.get(null);
+        Assert.assertEquals(result, 1);
+
+        myHashMap.put(null, 2);
+        myHashMap.put(null, 3);
+
+        result = myHashMap.get(null);
+        Assert.assertEquals(result, 3);
 
     }
 
     @Test
-    public void GetReturnCorrectValueMappedToKey() {
+    public void getReturnsCorrectValueMappedToKey() {
 
-        MySimpleHashMap<String, Integer> myHashMap = new MySimpleHashMap<>();
+        SimpleHashMap<String, Integer> myHashMap = new MySimpleHashMap();
 
-        Assert.assertEquals(myHashMap.size(), 0);
         myHashMap.put("key1", 22);
         myHashMap.put("key2", 25);
         myHashMap.put("key3", 26);
@@ -69,27 +81,12 @@ public class MySimpleHashMapTest {
         Assert.assertEquals(result,22);
 
     }
-    @Test
-    public void GetReturnIncorrectValueMappedToKey() {
-
-        MySimpleHashMap<String, Integer> myHashMap = new MySimpleHashMap<>();
-
-        Assert.assertEquals(myHashMap.size(), 0);
-        myHashMap.put("key1", 22);
-        myHashMap.put("key2", 25);
-        myHashMap.put("key3", 26);
-
-        int result = myHashMap.get("key1");
-        Assert.assertNotEquals(result,23);
-
-    }
 
     @Test
-    public void ContainsKeyReturnTrueWhenHashMapContainsKey() {
+    public void containsKeyReturnsTrueWhenHashMapContainsKey() {
 
-        MySimpleHashMap<String, Integer> myHashMap = new MySimpleHashMap<>();
+        SimpleHashMap<String, Integer> myHashMap = new MySimpleHashMap();
 
-        Assert.assertEquals(myHashMap.size(), 0);
         myHashMap.put("key1", 22);
         myHashMap.put("key2", 25);
         myHashMap.put("key3", 26);
@@ -98,11 +95,10 @@ public class MySimpleHashMapTest {
 
     }
     @Test
-    public void ContainsKeyReturnFalseWhenHashMapDoesNotContainKey() {
+    public void containsKeyReturnsFalseWhenHashMapDoesNotContainKey() {
 
-        MySimpleHashMap<String, Integer> myHashMap = new MySimpleHashMap<>();
+        SimpleHashMap<String, Integer> myHashMap = new MySimpleHashMap();
 
-        Assert.assertEquals(myHashMap.size(), 0);
         myHashMap.put("key1", 22);
         myHashMap.put("key2", 25);
         myHashMap.put("key3", 26);
@@ -112,11 +108,10 @@ public class MySimpleHashMapTest {
     }
 
     @Test
-    public void ContainsValueReturnTrueWhenHashMapContainsValue() {
+    public void containsValueReturnsTrueWhenHashMapContainsValue() {
 
-        MySimpleHashMap<String, Integer> myHashMap = new MySimpleHashMap<>();
+        SimpleHashMap<String, Integer> myHashMap = new MySimpleHashMap();
 
-        Assert.assertEquals(myHashMap.size(), 0);
         myHashMap.put("key1", 22);
         myHashMap.put("key2", 25);
         myHashMap.put("key3", 26);
@@ -125,11 +120,10 @@ public class MySimpleHashMapTest {
 
     }
     @Test
-    public void ContainsValueReturnFalseWhenHashMapDoesNotContainValue() {
+    public void containsValueReturnsFalseWhenHashMapDoesNotContainValue() {
 
-        MySimpleHashMap<String, Integer> myHashMap = new MySimpleHashMap<>();
+        SimpleHashMap<String, Integer> myHashMap = new MySimpleHashMap();
 
-        Assert.assertEquals(myHashMap.size(), 0);
         myHashMap.put("key1", 22);
         myHashMap.put("key2", 25);
         myHashMap.put("key3", 26);
