@@ -115,7 +115,7 @@ public class MySimpleHashMap<K, V> implements SimpleHashMap<K, V> {
             Entry<K, V> currentEntry = entry;
             while (currentEntry != null) {
 
-                if (currentEntry.getValue().equals(value)) {
+                if (Objects.equals(currentEntry.getValue(), value)) {
                     return true;
 
                 }
